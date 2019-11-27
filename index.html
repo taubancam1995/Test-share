@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+    </script>
+    <button onclick="share()" class="btn btn-primary">Share</button>
+    <script>
+        window.extAsyncInit = function() {
+            // the Messenger Extensions JS SDK is done loading
+            MessengerExtensions.getUserID(function success(uids) {
+                // User ID was successfully obtained. 
+                var psid = uids.psid;
+                console.log("psid", psid)
+
+            }, function error(err, errorMessage) {
+                // Error handling code
+                console.log(err, errorMessage)
+            });
+        };
+        var share = function() {
+            var message = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "sharable": true,
+                        "image_aspect_ratio": "horizontal",
+                        "elements": [{
+                            "title": "Test share",
+                            "image_url": "https://storage.googleapis.com/ahachat/production/images/5dde37af2219a7.18854863.png",
+                            "subtitle": "demo",
+                            "buttons": [{
+                                "type": "web_url",
+                                "url": "https://ahachat.com?messenger_extensions=true",
+                                "title": "THAM GIA NGAY",
+                                "messenger_extensions": true,
+                                "webview_height_ratio": "full"
+                            }]
+                        }]
+                    }
+                }
+            };
+            MessengerExtensions.beginShareFlow(function(share_response) {
+                    MessengerExtensions.requestCloseBrowser();
+                },
+                function(errorCode, errorMessage) {
+                    document.body.innerHTML = errorMessage.toString();
+                    setTimeout(function() {
+                        MessengerExtensions.requestCloseBrowser();
+                    }, 3000)
+                },
+                message,
+                "broadcast");
+        };
+    </script>
+</body>
+
+</html>
