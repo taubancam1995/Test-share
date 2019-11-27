@@ -45,9 +45,11 @@
                 }
             };
             MessengerExtensions.beginShareFlow(function(share_response) {
+		    console.log(share_response);
                     MessengerExtensions.requestCloseBrowser();
                 },
                 function(errorCode, errorMessage) {
+		    console.log(errorCode, errorMessage);
                     document.body.innerHTML = errorMessage.toString();
                     setTimeout(function() {
                         MessengerExtensions.requestCloseBrowser();
