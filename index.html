@@ -21,18 +21,6 @@
     </script>
     <button onclick="share()" class="btn btn-primary">Share</button>
     <script>
-        window.extAsyncInit = function() {
-            // the Messenger Extensions JS SDK is done loading
-            MessengerExtensions.getUserID(function success(uids) {
-                // User ID was successfully obtained. 
-                var psid = uids.psid;
-                console.log("psid", psid)
-
-            }, function error(err, errorMessage) {
-                // Error handling code
-                console.log(err, errorMessage)
-            });
-        };
         var share = function() {
             var message = {
                 "attachment": {
